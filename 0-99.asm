@@ -14,22 +14,22 @@ status_temp	EQU	0x7E
 pclath_temp	EQU	0x7F	
     ORG     0x000             	
 
-    nop			  			  	; ICD ozelliginin aktif edilmesi icin gereken bekleme 
-    goto    BASLA              	; baslama etiketine gir
+    nop			  			  	
+    goto    BASLA              	
 
 	
 ;**********************************************************************************************
-    ORG     0x004             	; kesme vektoru
+    ORG     0x004             	
 
-    movwf   w_temp            	; W n?n yedegini al
-    movf	STATUS,w          	; Status un yedegini almak icin onu once W ya al
-    movwf	status_temp       	; Status u yedek register '?na al
-    movf	PCLATH,w	  		; PCLATH '? yedeklemek icin onu once W 'ya al
-    movwf	pclath_temp	  		; PCLATH '? yedek register a al
+    movwf   w_temp            	
+    movf	STATUS,w          	
+    movwf	status_temp       	
+    movf	PCLATH,w	  		
+    movwf	pclath_temp	  		
 
-	; gerekli kodlar
+	
 
-    movf	pclath_temp,w	  	; Geri donmeden once tum yedekleri geri yukle
+    movf	pclath_temp,w	  	
     movwf	PCLATH		  		
     movf    status_temp,w     	
     movwf	STATUS            	
@@ -48,30 +48,30 @@ BANKSEL PORTA
     BSF PORTA,1
     CLRF PORTB
 
-    MOVLW 0X00		;birler basama?? 
+    MOVLW 0X00		
     MOVWF BIRLER
 
-    MOVLW 0X05	;birler basama?? sayaç?
-    MOVWF SAYACB	;her 9 oldu?unda 0 a dönmesi için 
+    MOVLW 0X05	
+    MOVWF SAYACB	 
 
-    MOVLW 0X00		;onlar basama?? (soldaki 7segment)
+    MOVLW 0X00		
     MOVWF ONLAR
 
-    MOVLW 0X0A		;onlar basama?? sayac? 9 oldugunda 0 a dönsün
+    MOVLW 0X0A		
     MOVWF SAYACO
 
 DONGU1
     BSF PORTA,0
     BCF PORTA,1	
-    MOVF BIRLER,W	;birler basama??n?n anl?k de?eri workinge yüklenip
+    MOVF BIRLER,W	;birler basama??n?n anl?k de?eri workinge yÃ¼klenip
     CALL RAKAMLAR	;rakamlardan de?er al?nacakt?r
     MOVWF PORTB
-    CALL GECIKME	;porta,1 clear seçme ucuna gelen ver?y? okuyacakt?r
+    CALL GECIKME	;porta,1 clear seÃ§me ucuna gelen ver?y? okuyacakt?r
     INCF BIRLER,F
     INCF BIRLER,F	;birler basama?? 1-1 artacakt?r
     
 
-    BCF PORTA,0		;onlar basama?? için porta,0 seçim ucu kullan?lm??t?r
+    BCF PORTA,0		;onlar basama?? iÃ§in porta,0 seÃ§im ucu kullan?lm??t?r
     BSF PORTA,1		;birler basama?? set edip kapand???nda onlar basama??na yaz?lacakt?r de?er
     MOVF ONLAR,W	;lookup table dan de?er al?nacakt?r
     CALL RAKAMLAR
@@ -81,7 +81,7 @@ DONGU1
     CALL DONGU1
 
     MOVLW 0X00		;sayac birler s?f?r olunca birler basam??ndaki rakam 9 olmu? demekt?r
-    MOVWF BIRLER		;tekrardan bu basama?? 0 yapaca??z 0-9 aras?nda sürekli sayd???m?z için
+    MOVWF BIRLER		;tekrardan bu basama?? 0 yapaca??z 0-9 aras?nda sÃ¼rekli sayd???m?z iÃ§in
 
     MOVLW 0X05		;birler sayac? tekrardan 9 yap?l?yor
     MOVWF SAYACB
@@ -94,10 +94,10 @@ DONGU2			;birler basama?? 9 oldu?u zaman tekrar 0 lad?k
     CALL RAKAMLAR
     MOVWF PORTB
     CALL GECIKME
-    DECFSZ SAYACO		;sayac onlarda s?f?r olduysa demektirki 99 say?s?n? görüyoruz ?imdi bütün i?lemleri ba?a almam?z gerekiyor
+    DECFSZ SAYACO		;sayac onlarda s?f?r olduysa demektirki 99 say?s?n? gÃ¶rÃ¼yoruz ?imdi bÃ¼tÃ¼n i?lemleri ba?a almam?z gerekiyor
     CALL DONGU1
 
-    MOVLW 0X00		;99 olduysa bütün de?erleri ba?tan yükleyip ilk döngüye tekrar dallan?yoruz
+    MOVLW 0X00		;99 olduysa bÃ¼tÃ¼n de?erleri ba?tan yÃ¼kleyip ilk dÃ¶ngÃ¼ye tekrar dallan?yoruz
     MOVWF BIRLER
 
     MOVLW 0X05
@@ -139,6 +139,6 @@ RAKAMLAR
     RETLW h'7F'
     RETLW h'6F'
     RETURN
-				;~~ www.mikroislemcim.com ~~
+				
 END
 						
